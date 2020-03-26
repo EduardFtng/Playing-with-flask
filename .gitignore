@@ -4,3 +4,4 @@ package-lock.json
 node_modules
 env/
 app/__pycache__/*
+__pycache__/
