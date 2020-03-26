@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Import our custom stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="bg-white px-8 pt-2 shadow-md">
+        <div class="-mb-px flex justify-center">
+            <a class="no-underline text-green-800 border-b-2 border-green-800 uppercase tracking-wide font-bold text-xs py-3 mr-8"
+                href="#">
+                Home
+            </a>
+            <a class="no-underline text-gray-700 border-b-2 border-transparent uppercase tracking-wide font-bold text-xs py-3 mr-8"
+                href="#">
+                Products
+            </a>
+            <a class="no-underline text-gray-700 border-b-2 border-transparent uppercase tracking-wide font-bold text-xs py-3 mr-8"
+                href="#">
+                Discounts
+            </a>
+            <a class="no-underline text-gray-700 border-b-2 border-transparent uppercase tracking-wide font-bold text-xs py-3"
+                href="#">
+                Customers
+            </a>
+        </div>
+        <!-- 
+            <div class="topnav">
+         if query to set current .html on class="active" else class="navelement" 
+        <a {% if request.path == url_for('home') %} class="active navelemnt" {% else %} class="navelement" {% endif %} href="{{ url_for('home') }}">Home</a>
+
+        <a {% if request.path == url_for('about') %} class="active navelemnt" {% else %} class="navelement" {% endif %} href="{{ url_for('about') }}">About</a>
+
+        <a {% if request.path == url_for('kontakt') %} class="active navelemnt" {% else %} class="navelement" {% endif %} href="{{ url_for('kontakt') }}">Contact</a>
+    </div>
+-->
+
+
+    </nav>
+
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+    <!--<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block script %}{% endblock %}-->
+</body>
+
+</html>
