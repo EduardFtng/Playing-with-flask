@@ -1,0 +1,35 @@
+version: '3'
+
+services: 
+    db:
+        image: postgres:12.2-alpine
+
+        volumes: 
+            - ./db-data:/var/lib/postgresql/data
+
+        ports: 
+            - 5432:5432
+
+        environment:
+            POSTGRES_PASSWORD: 123
+
+volumes: 
+    db-data:
+
+
+
+# To backup:
+
+# docker exec -u <your_postgres_user> <postgres_container_name> pg_dump -Fc <database_name_here> > db.dump
+    
+    
+# To drop db (Don't do it on production, for test purpose only!!!):
+    
+# docker exec -u <your_postgres_user> <postgres_container_name> psql -c 'DROP DATABASE <your_db_name>'
+    
+    
+# To restore:
+    
+# docker exec -i -u <your_postgres_user> <postgres_container_name> pg_restore -C -d postgres < db.dump
+    
+# Also you can use docker-compose analog of exec. In that case you can use short services name (postgres) instead of full container name (composeproject_postgres).
