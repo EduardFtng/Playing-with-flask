@@ -7,19 +7,25 @@
 
 <div class="container w-full md:max-w-3xl mx-auto pt-20">
     <div class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
-        <label class="block">
-            <input type="text" class="form-input mt-1 block w-full" placeholder="Name">
-        </label>
+        <form name="addForm" method="POST" action="{{ url_for('addpost') }}">
+            <label class="block">
+                <input type="text" class="form-input mt-1 block w-full" placeholder="Name" name="author" id="author">
+            </label>
 
-        <label class="block">
-            <input type="text" class="form-input mt-1 block w-full" placeholder="Titel">
-        </label>
+            <label class="block">
+                <input type="text" class="form-input mt-1 block w-full" placeholder="Titel" name="titel" id="titel">
+            </label>
 
-        <label class="block">
-            <textarea class="form-textarea mt-1 block w-full" rows="3"
-                placeholder="Enter some long form content."></textarea>
-        </label>
+            <label class="block">
+                <textarea class="form-textarea mt-1 block w-full" rows="3" placeholder="Enter some long form content."
+                    name="content" id="content"></textarea>
+            </label>
+
+            <button type="submit" class="btn btn-secondary" id="sendContent">Send</button>
+
+        </form>
     </div>
 </div>
+
 
 {% endblock %}
