@@ -3,7 +3,7 @@ from app import db
 class Blogpost(db.Model):
     __tablename__ = 'example'
     id = db.Column(db.Integer, primary_key=True)
-    titel = db.Column(db.String(50))
+    title = db.Column(db.String(50))
     author = db.Column(db.String(20))
     date_posted = db.Column(db.DateTime)
     content = db.Column(db.Text)
