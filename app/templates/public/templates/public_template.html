@@ -48,6 +48,22 @@
                         <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
                             href="{{ url_for('about') }}">About</a>
                     </li>
+                    <!-- If query to check is the user loged in? If yes, then the 'Log Out'-button is displayed, else the 'Log In'-button is displayed -->
+                    {% if current_user.is_anonymous %}
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
+                            href="{{ url_for('login') }}">Log In</a>
+                    </li>
+                    {% else %}
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
+                            href="{{ url_for('logout') }}">Log Out</a>
+                    </li>
+                    {% endif %}
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
+                            href="{{ url_for('signup') }}">Sign Up</a>
+                    </li>
                 </ul>
             </div>
         </div>

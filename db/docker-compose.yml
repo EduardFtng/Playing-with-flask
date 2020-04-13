@@ -27,7 +27,6 @@ volumes:
     
 # docker exec -u <your_postgres_user> <postgres_container_name> psql -c 'DROP DATABASE <your_db_name>'
     
-    
 # To restore:
     
 # docker exec -i -u <your_postgres_user> <postgres_container_name> pg_restore -C -d postgres < db.dump
