@@ -18,11 +18,11 @@ class User(UserMixin, db.Model):
 class Blogpost(db.Model):
     __tablename__ = 'blogpost'
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(50))
+    title = db.Column(db.String(50), nullable=False)
   # author = db.Column(db.String(20))
-    date_posted = db.Column(db.DateTime)
-    content = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('member.id'))
+    date_posted = db.Column(db.DateTime, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('member.id'))
 
 @login.user_loader
 def load_user(id):

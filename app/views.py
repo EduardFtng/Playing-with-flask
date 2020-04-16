@@ -33,11 +33,12 @@ def add():
 @app.route('/addpost', methods=['POST'])
 def addpost():
     title = request.form['title']
-    author = request.form['author']
+    author = current_user.get_id() 
+    #author = request.form['author']
     content = request.form['content']
 
     #Adding the information to the database:
-    post = Blogpost(title=title, author=author, content=content, date_posted=datetime.now())
+    post = Blogpost(title=title, content=content, date_posted=datetime.now())
     
     db.session.add(post)
     db.session.commit()
@@ -81,8 +82,10 @@ def signup():
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
+        
         db.session.add(user)
         db.session.commit()
+        
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('public/signup.html', form=form)
