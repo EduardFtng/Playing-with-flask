@@ -22,7 +22,7 @@ class Blogpost(db.Model):
   # author = db.Column(db.String(20))
     date_posted = db.Column(db.DateTime, nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, nullable=False, db.ForeignKey('member.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('member.id'))
 
 @login.user_loader
 def load_user(id):
