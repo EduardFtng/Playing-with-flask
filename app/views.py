@@ -1,10 +1,9 @@
-from app import app, db
 from flask import render_template, request, redirect, url_for, flash
+from app import app, db, bcrypt
 from app.models import Blogpost, User
 from app.forms import LoginForm, RegistrationForm
 from datetime import datetime
 from flask_login import current_user, login_user, logout_user, login_required
-from werkzeug.urls import url_parse
 
 
 @app.route('/')
@@ -45,6 +44,25 @@ def addpost():
 
     return redirect(url_for('index'))
 
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        
+        # Adding an user to the database
+        db.session.add(user)
+        db.session.commit()
+        
+        flash('Congratulations, you are now a registered user!', 'bg-green-100 border-green-400')
+        return redirect(url_for('login'))
+    return render_template('public/signup.html', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -54,38 +72,19 @@ def login():
 
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-
-        login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
-
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
-
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            # If the inserd username and password match with the stored information inside the database, the user will be logged in
+            login_user(user, remember=form.remember_me.data)
+            # Redirecting from Login page to the page after the 'next' parameter else just redirect to index
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'bg-red-100 border-red-400 text-red-700')
     return render_template('public/login.html', form=form)
-
+   
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        
-        db.session.add(user)
-        db.session.commit()
-        
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
-    return render_template('public/signup.html', form=form)

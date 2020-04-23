@@ -49,21 +49,25 @@
                             href="{{ url_for('about') }}">About</a>
                     </li>
                     <!-- If query to check is the user loged in? If yes, then the 'Log Out'-button is displayed, else the 'Log In'-button is displayed -->
-                    {% if current_user.is_anonymous %}
+                    {% if current_user.is_authenticated %}
+
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
+                            href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+
+                    {% else %}
+
                     <li class="mr-3">
                         <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
                             href="{{ url_for('login') }}">Login</a>
                     </li>
-                    {% else %}
-                    <li class="mr-3">
-                        <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
-                            href="{{ url_for('logout') }}">Log Out</a>
-                    </li>
-                    {% endif %}
+
                     <li class="mr-3">
                         <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4"
                             href="{{ url_for('signup') }}">Sign Up</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -71,6 +75,21 @@
 
 
     <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    
+                    <div class="{{ category }} border mx-20 mt-20 px-4 py-3 rounded relative text-center" role="alert">
+                        <span class="block sm:inline">{{ message }}</span>
+                        
+                    </div>
+                        
+                    
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
         {% block main %}{% endblock %}
     </main>
 

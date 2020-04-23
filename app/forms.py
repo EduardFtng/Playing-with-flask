@@ -11,7 +11,17 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
+    # Checking if the username already exists in the database
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user is None:
+            raise ValidationError('Username does not exist.')
 
+
+    #def validate_password(self, password):
+    #    user = User.query.filter_by(password=password.data)
+    #    if password is not password.data:
+    #        raise ValidationError('Wrong Password')
 class RegistrationForm(FlaskForm):
     # validators List: DataRequired() - the field can't be empty, Length() - sets the min and max for username
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
@@ -19,12 +29,14 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
-
+    
+    # Checking if the username already exists in the database
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
+    # Checking if the email already exists in the database
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
